@@ -24,13 +24,13 @@ const bookingSchema = new mongoose.Schema(
     status: {
       type: String,
       enum: [
-        'pending',      // Booking created, no worker assigned
-        'assigned',     // Worker assigned, awaiting confirmation
-        'confirmed',    // Worker accepted the job
-        'in_progress',  // Worker has started the job
-        'completed',    // Job done
-        'cancelled',    // Cancelled by customer or admin
-        'rejected',     // Worker rejected the job
+        'pending',      
+        'assigned',     
+        'confirmed',    
+        'in_progress',  
+        'completed',    
+        'cancelled',    
+        'rejected',     
       ],
       default: 'pending',
     },
@@ -39,7 +39,7 @@ const bookingSchema = new mongoose.Schema(
       required: [true, 'Scheduled date is required'],
     },
     scheduledTime: {
-      type: String, // "10:00 AM", "2:30 PM"
+      type: String,
       required: [true, 'Scheduled time is required'],
     },
     address: {
@@ -55,10 +55,13 @@ const bookingSchema = new mongoose.Schema(
       },
     },
     pricing: {
-      baseAmount: { type: Number, required: true },
-      taxAmount: { type: Number, default: 0 },
-      discountAmount: { type: Number, default: 0 },
-      totalAmount: { type: Number, required: true },
+      workerPrice:     { type: Number, default: 0 },   // worker's demanded price
+      serviceFee:      { type: Number, default: 0 },   // 20% platform fee
+      maintenanceFee:  { type: Number, default: 20 },  // fixed ₹20
+      baseAmount:      { type: Number, required: true },
+      taxAmount:       { type: Number, default: 0 },   // GST on platform charges
+      discountAmount:  { type: Number, default: 0 },
+      totalAmount:     { type: Number, required: true },
     },
     payment: {
       method: {
@@ -87,12 +90,11 @@ const bookingSchema = new mongoose.Schema(
       review: String,
       ratedAt: Date,
     },
-    // Status change history for audit trail
     statusHistory: [
       {
         status: String,
         changedAt: { type: Date, default: Date.now },
-        changedBy: String, // 'customer', 'admin', 'worker', 'system'
+        changedBy: String, 
         note: String,
       },
     ],
@@ -122,7 +124,7 @@ bookingSchema.pre('save', async function (next) {
   next();
 });
 
-// Indexes for common queries
+// Indexes
 bookingSchema.index({ customer: 1, status: 1 });
 bookingSchema.index({ worker: 1, status: 1 });
 bookingSchema.index({ scheduledDate: 1 });

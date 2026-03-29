@@ -228,6 +228,22 @@ const updateWorkerProfile = asyncHandler(async (req, res) => {
   res.json({ success: true, message: 'Profile updated successfully.', data: { worker } });
 });
 
+
+// ─── WORKER: Update pricing ──────────────────────────────────────────────────
+const updateWorkerPricing = async (req, res, next) => {
+  try {
+    const { demandedPrice, pricePerHour, pricePerVisit, pricePerDay, note } = req.body;
+    const worker = await require('../models/Worker').findByIdAndUpdate(
+      req.worker._id,
+      { pricing: { demandedPrice, pricePerHour, pricePerVisit, pricePerDay, note } },
+      { new: true }
+    );
+    res.json({ success: true, message: 'Pricing updated!', data: { worker } });
+  } catch (e) { next(e) }
+};
+module.exports.updateWorkerPricing = updateWorkerPricing;
+
+
 // ─── WORKER: Get own bookings ────────────────────────────────────────────────
 const getWorkerBookings = asyncHandler(async (req, res) => {
   const { status, page = 1, limit = 10 } = req.query;
@@ -298,6 +314,7 @@ module.exports = {
   workerLogin,
   getWorkerProfile,
   updateWorkerProfile,
+  updateWorkerPricing,
   getWorkerBookings,
   getWorkerDashboardStats,
   getWorkerById,
