@@ -295,22 +295,20 @@ const seedDatabase = async () => {
     console.log('🗑️  Cleared existing data');
 
     // Create admin user
-    const adminPassword = await bcrypt.hash(process.env.ADMIN_PASSWORD || 'Admin@123', 12);
     const admin = await User.create({
       name: 'ServiceSetu Admin',
       email: process.env.ADMIN_EMAIL || 'admin@servicesetu.com',
-      password: adminPassword,
+      password: process.env.ADMIN_PASSWORD || 'Admin@123',
       phone: '9000000000',
       role: 'admin',
     });
     console.log(`👤 Admin created: ${admin.email}`);
 
     // Create demo customer
-    const custPassword = await bcrypt.hash('Demo@123', 12);
     await User.create({
       name: 'Priya Sharma',
       email: 'priya@example.com',
-      password: custPassword,
+      password: 'Demo@123',
       phone: '9111111111',
       role: 'customer',
       address: {

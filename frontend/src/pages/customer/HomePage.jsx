@@ -4,6 +4,7 @@ import { Search, MapPin, Shield, Clock, Star, ArrowRight, ChevronRight } from 'l
 import api from '../../services/api'
 import { Spinner } from '../../components/common/LoadingScreen'
 import ServiceCard from '../../components/customer/ServiceCard'
+import AreaWorkerChecker from '../../components/customer/AreaWorkerChecker'
 
 const CATEGORIES = [
   { key: 'plumber',      label: 'Plumber',       icon: '🔧', color: 'bg-blue-50   text-blue-600' },
@@ -166,6 +167,41 @@ export default function HomePage() {
             ))}
           </div>
         )}
+      </section>
+
+      {/* ── AREA CHECKER ─────────────────────────────────── */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+          <div>
+            <h2 className="section-title mb-2">Is a worker available in your area?</h2>
+            <p className="text-slate-500 text-sm mb-5">
+              Enter your pincode to check availability before you book.
+            </p>
+            <AreaWorkerChecker />
+          </div>
+          <div className="hidden lg:block">
+            <div className="bg-gradient-to-br from-brand-50 to-orange-50 rounded-3xl p-8 border border-brand-100">
+              <div className="text-5xl mb-4">📍</div>
+              <h3 className="font-display font-bold text-xl text-slate-900 mb-2">
+                Hyperlocal Matching
+              </h3>
+              <p className="text-slate-600 text-sm mb-4">
+                We match workers by exact pincode first, then area, then city — so you always get the closest professional.
+              </p>
+              <div className="space-y-2">
+                {[
+                  ['✅', 'Exact pincode match'],
+                  ['📍', 'Area-level fallback'],
+                  ['🏙️', 'City-wide search'],
+                ].map(([icon, label]) => (
+                  <div key={label} className="flex items-center gap-2 text-sm text-slate-700">
+                    <span>{icon}</span>{label}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* ── WHY CHOOSE US ────────────────────────────────────── */}

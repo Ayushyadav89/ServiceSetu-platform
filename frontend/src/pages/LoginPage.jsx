@@ -91,11 +91,11 @@ export default function LoginPage() {
           <div className="flex gap-2 mb-6">
             <button onClick={() => fillDemo('customer')}
               className="flex-1 text-xs py-2 px-3 rounded-lg bg-blue-50 text-blue-600 border border-blue-200 hover:bg-blue-100 transition-colors font-medium">
-              👤 Demo Customer
+              👤 Customer
             </button>
             <button onClick={() => fillDemo('admin')}
               className="flex-1 text-xs py-2 px-3 rounded-lg bg-purple-50 text-purple-600 border border-purple-200 hover:bg-purple-100 transition-colors font-medium">
-              🛡️ Demo Admin
+              🛡️ Admin
             </button>
           </div>
 
